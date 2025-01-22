@@ -6,25 +6,20 @@ const addAlarmButton = document.getElementById('add-alarm');
 
 let alarms = [];
 
-// Update time and battery level every second
 setInterval(() => {
     const now = new Date();
     const formattedTime = now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0];
     timeDisplay.textContent = formattedTime;
 
-    // Decrease battery level
     if (batteryLevel > 0) {
         batteryLevel--;
         batteryElement.textContent = `${batteryLevel}%`;
     }
 
-    // Hide time if battery is 0%
     if (batteryLevel === 0) {
         timeDisplay.style.backgroundColor = '#000';
         timeDisplay.style.color = '#000';
     }
-
-    // Check alarms
     alarms.forEach(alarm => {
         if (
             alarm.hour === now.getHours() &&
@@ -36,7 +31,6 @@ setInterval(() => {
     });
 }, 1000);
 
-// Add alarm functionality
 addAlarmButton.addEventListener('click', () => {
     const hour = parseInt(document.getElementById('hour').value);
     const minute = parseInt(document.getElementById('minute').value);
@@ -58,7 +52,6 @@ addAlarmButton.addEventListener('click', () => {
     }
 });
 
-// Update the displayed alarm list
 function updateAlarmList() {
     alarmList.innerHTML = '';
     alarms.forEach((alarm, index) => {
@@ -77,3 +70,27 @@ function updateAlarmList() {
         alarmList.appendChild(li);
     });
 }
+
+const chargeButton = document.getElementById('charge-battery');
+
+// 배터리 충전 기능
+chargeButton.addEventListener('click', () => {
+    if (batteryLevel === 0) {
+        batteryLevel = 100;
+        batteryElement.textContent = `${batteryLevel}%`;
+        timeDisplay.style.backgroundColor = '#333'; // 배터리 충전 시 시계 색상 복원
+        timeDisplay.style.color = '#fff'; // 시계 글자 색상 복원
+    }
+});
+
+const toggleThemeButton = document.getElementById('toggle-theme');
+
+// 다크모드 / 라이트모드 전환
+toggleThemeButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    document.querySelector('.clock-container').classList.toggle('dark-mode');
+    document.getElementById('battery-level').classList.toggle('dark-mode');
+    document.getElementById('time-display').classList.toggle('dark-mode');
+});
+
+// CSS에서 다크모드 스타일 정의

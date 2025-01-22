@@ -73,3 +73,34 @@ body {
     border-radius: 5px;
     font-size: 14px;
 }
+
+/* 기본 라이트모드 스타일 */
+body {
+    background-color: #f0f8ff;
+    color: black;
+}
+
+.clock-container {
+    background: linear-gradient(145deg, #ffffff, #e0e0e0);
+    box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+}
+
+/* 다크모드 스타일 */
+body.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+.clock-container.dark-mode {
+    background: linear-gradient(145deg, #444, #222);
+    box-shadow: 10px 10px 20px #111, -10px -10px 20px #444;
+}
+
+.battery.dark-mode {
+    color: #fff;
+}
+
+.time-display.dark-mode {
+    background: #222;
+    color: #fff;
+}
