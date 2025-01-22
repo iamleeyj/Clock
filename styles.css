@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.clock-container {
+    background: linear-gradient(145deg, #ffffff, #e0e0e0);
+    box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.battery {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.time-display {
+    font-size: 24px;
+    font-weight: bold;
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.alarm-container {
+    margin-top: 20px;
+}
+
+.alarm-container input {
+    width: 50px;
+    padding: 5px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#add-alarm {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#add-alarm:hover {
+    background-color: #45a049;
+}
+
+#alarm-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+#alarm-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+}
