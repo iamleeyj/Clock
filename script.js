@@ -1,5 +1,6 @@
 let batteryLevel = 100;
 const batteryElement = document.getElementById('battery-level');
+const batteryIcon = document.getElementById('battery-icon');
 const timeDisplay = document.getElementById('time-display');
 const alarmList = document.getElementById('alarm-list');
 const addAlarmButton = document.getElementById('add-alarm');
@@ -14,19 +15,27 @@ setInterval(() => {
     if (batteryLevel > 0) {
         batteryLevel--;
         batteryElement.textContent = `${batteryLevel}%`;
+        if (batteryLevel <= 20) {
+            batteryElement.classList.add('low');
+            batteryIcon.classList.add('low');
+        } else {
+            batteryElement.classList.remove('low');
+            batteryIcon.classList.remove('low');
+        }
     }
 
     if (batteryLevel === 0) {
         timeDisplay.style.backgroundColor = '#000';
         timeDisplay.style.color = '#000';
     }
+
     alarms.forEach(alarm => {
         if (
             alarm.hour === now.getHours() &&
             alarm.minute === now.getMinutes() &&
             alarm.second === now.getSeconds()
         ) {
-            alert(`Alarm! Time: ${formattedTime}`);
+            alert(`알람! 시간: ${formattedTime}`);
         }
     });
 }, 1000);
@@ -45,10 +54,10 @@ addAlarmButton.addEventListener('click', () => {
             alarms.push({ hour, minute, second });
             updateAlarmList();
         } else {
-            alert('You can only set up to 3 alarms.');
+            alert('알람은 최대 3개까지 설정할 수 있습니다.');
         }
     } else {
-        alert('Please enter valid time values.');
+        alert('유효한 시간 값을 입력해주세요.');
     }
 });
 
@@ -60,7 +69,7 @@ function updateAlarmList() {
                          `${alarm.minute.toString().padStart(2, '0')}:` +
                          `${alarm.second.toString().padStart(2, '0')}`;
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = '삭제';
         deleteButton.style.marginLeft = '10px';
         deleteButton.addEventListener('click', () => {
             alarms.splice(index, 1);
@@ -73,24 +82,39 @@ function updateAlarmList() {
 
 const chargeButton = document.getElementById('charge-battery');
 
-// 배터리 충전 기능
 chargeButton.addEventListener('click', () => {
     if (batteryLevel === 0) {
         batteryLevel = 100;
         batteryElement.textContent = `${batteryLevel}%`;
-        timeDisplay.style.backgroundColor = '#333'; // 배터리 충전 시 시계 색상 복원
-        timeDisplay.style.color = '#fff'; // 시계 글자 색상 복원
+        batteryIcon.classList.remove('low');
+        timeDisplay.style.backgroundColor = '#333';
+        timeDisplay.style.color = '#fff';
+    } else {
+        alert('완전히 방전되어야 사용할 수 있습니다.');
     }
 });
 
 const toggleThemeButton = document.getElementById('toggle-theme');
 
-// 다크모드 / 라이트모드 전환
 toggleThemeButton.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     document.querySelector('.clock-container').classList.toggle('dark-mode');
     document.getElementById('battery-level').classList.toggle('dark-mode');
     document.getElementById('time-display').classList.toggle('dark-mode');
+    toggleThemeButton.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 });
 
-// CSS에서 다크모드 스타일 정의
+// 페이지 로드 시 알림창을 최초 1번만 표시하고, 새로고침 시 초기화
+window.onload = function() {
+    // 세션 저장소에 'hasSeenManual' 키가 없으면 최초 방문으로 간주
+    if (!sessionStorage.getItem('hasSeenManual')) {
+        // 알림창을 표시
+        document.getElementById('welcome-modal').style.display = 'flex';
+
+        // 사용자가 알림창을 닫을 때 세션 저장소에 정보를 저
+        document.getElementById('close-modal').onclick = function() {
+            sessionStorage.setItem('hasSeenManual', 'true');
+            document.getElementById('welcome-modal').style.display = 'none';
+        };
+    }
+};
