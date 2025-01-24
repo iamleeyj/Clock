@@ -108,7 +108,7 @@ body {
 }
 
 #charge-battery {
-    background-color: #ff6347; /* 빨간색 */
+    background-color: #ff6347; 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -129,7 +129,7 @@ body {
     margin-top: 10px;
 }
 
-/* 배터리 색상 */
+
 #battery-icon.low {
     background-color: #ff6347; /* 빨간색 */
 }
@@ -138,12 +138,10 @@ body {
     color: green;
 }
 
-/* 배터리 잔량 20% 이하 시 빨간색 */
 #battery-level.low {
     color: red;
 }
 
-/* 기본 라이트모드 스타일 */
 body {
     background-color: #f0f8ff;
     color: black;
@@ -154,7 +152,6 @@ body {
     box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
 }
 
-/* 다크모드 스타일 */
 body.dark-mode {
     background-color: #333;
     color: white;
@@ -174,12 +171,10 @@ body.dark-mode {
     color: #fff;
 }
 
-/* 다크모드에서 알람 리스트 텍스트 색상 변경 */
 body.dark-mode #alarm-list li {
-    color: rgb(0, 0, 0); /* 흰색으로 설정 */
+    color: rgb(0, 0, 0); 
 }
 
-/* Modal 스타일 */
 .modal {
     display: none;
     position: fixed;

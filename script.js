@@ -148,14 +148,11 @@ function showStep(stepIndex) {
     document.body.appendChild(overlay);
     document.body.appendChild(tutorialBox);
 
-    // 강조 표시
     element.classList.add('tutorial-highlight');
 
-    // 튜토리얼 박스 위치 조정
     tutorialBox.style.top = `${rect.top + window.scrollY - tutorialBox.offsetHeight - 10}px`;
     tutorialBox.style.left = `${rect.left + rect.width / 2 - tutorialBox.offsetWidth / 2}px`;
 
-    // 이벤트 핸들러
     document.getElementById('next-step').onclick = () => {
         cleanupStep();
         currentStep++;
@@ -179,12 +176,12 @@ function showStep(stepIndex) {
 }
 
 function endTutorial() {
-    sessionStorage.setItem('hasSeenTutorial', 'true');
+    sessionStorage.setItem('seeTutorial', 'true');
 }
 
-// 페이지 로드 시 튜토리얼 시작
+// 튜토리얼
 window.onload = () => {
-    if (!sessionStorage.getItem('hasSeenTutorial')) {
+    if (!sessionStorage.getItem('seeTutorial')) {
         showStep(currentStep);
     }
 };
