@@ -104,17 +104,87 @@ toggleThemeButton.addEventListener('click', () => {
     toggleThemeButton.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 });
 
-// 페이지 로드 시 알림창을 최초 1번만 표시하고, 새로고침 시 초기화
-window.onload = function() {
-    // 세션 저장소에 'hasSeenManual' 키가 없으면 최초 방문으로 간주
-    if (!sessionStorage.getItem('hasSeenManual')) {
-        // 알림창을 표시
-        document.getElementById('welcome-modal').style.display = 'flex';
 
-        // 사용자가 알림창을 닫을 때 세션 저장소에 정보를 저
-        document.getElementById('close-modal').onclick = function() {
-            sessionStorage.setItem('hasSeenManual', 'true');
-            document.getElementById('welcome-modal').style.display = 'none';
-        };
+const steps = [
+    {
+        element: '#time-display',
+        message: '이곳에서 현재 시간을 확인할 수 있습니다!',
+        position: 'top',
+    },
+    {
+        element: '#add-alarm',
+        message: '여기에서 알람을 추가할 수 있어요. 시, 분, 초를 설정한 후 클릭하세요!',
+        position: 'top',
+    },
+    {
+        element: '#charge-battery',
+        message: '배터리가 부족할 때 이 버튼으로 충전할 수 있습니다!',
+        position: 'top',
+    },
+    {
+        element: '#toggle-theme',
+        message: '🌙 버튼으로 라이트모드와 다크모드를 전환할 수 있습니다.',
+        position: 'top',
+    },
+];
+
+let currentStep = 0;
+
+function showStep(stepIndex) {
+    const step = steps[stepIndex];
+    const element = document.querySelector(step.element);
+    const overlay = document.createElement('div');
+    const tutorialBox = document.createElement('div');
+    const rect = element.getBoundingClientRect();
+
+    overlay.className = 'tutorial-overlay';
+    tutorialBox.className = 'tutorial-box';
+    tutorialBox.innerHTML = `
+        <p>${step.message}</p>
+        <button id="next-step">다음</button>
+        <button id="skip-tutorial">건너뛰기</button>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.appendChild(tutorialBox);
+
+    // 강조 표시
+    element.classList.add('tutorial-highlight');
+
+    // 튜토리얼 박스 위치 조정
+    tutorialBox.style.top = `${rect.top + window.scrollY - tutorialBox.offsetHeight - 10}px`;
+    tutorialBox.style.left = `${rect.left + rect.width / 2 - tutorialBox.offsetWidth / 2}px`;
+
+    // 이벤트 핸들러
+    document.getElementById('next-step').onclick = () => {
+        cleanupStep();
+        currentStep++;
+        if (currentStep < steps.length) {
+            showStep(currentStep);
+        } else {
+            endTutorial();
+        }
+    };
+
+    document.getElementById('skip-tutorial').onclick = () => {
+        cleanupStep();
+        endTutorial();
+    };
+
+    function cleanupStep() {
+        element.classList.remove('tutorial-highlight');
+        overlay.remove();
+        tutorialBox.remove();
+    }
+}
+
+function endTutorial() {
+    sessionStorage.setItem('hasSeenTutorial', 'true');
+}
+
+// 페이지 로드 시 튜토리얼 시작
+window.onload = () => {
+    if (!sessionStorage.getItem('hasSeenTutorial')) {
+        showStep(currentStep);
     }
 };
